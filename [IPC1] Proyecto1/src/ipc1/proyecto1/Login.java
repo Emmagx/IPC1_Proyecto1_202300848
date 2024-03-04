@@ -3,9 +3,9 @@ package ipc1.proyecto1;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login extends Proyecto1 {
     
@@ -65,6 +65,16 @@ public class Login extends Proyecto1 {
         background.add(userName); // Agrega la etiqueta de usuario al panel de fondo
 
         usernameField.setBounds(40, 100, 300, 25); // Establece la posición y tamaño del campo de texto de usuario
+        // Agrega un KeyListener para permitir solo números
+        usernameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+                    e.consume();
+                }
+            }
+        });
         background.add(usernameField); // Agrega el campo de texto de usuario al panel de fondo
 
         userPass.setText("Contraseña:"); // Establece el texto de la etiqueta de contraseña
@@ -111,29 +121,45 @@ public class Login extends Proyecto1 {
 
     private void addEvents() {
     // Agrega eventos al checkbox para mostrar contraseña
-    showPassCheckbox.addItemListener(new ItemListener() {
-        @Override
-        public void itemStateChanged(ItemEvent e) {
+        showPassCheckbox.addItemListener((ItemEvent e) -> {
             // Verifica si el checkbox ha cambiado su estado
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 // Si está seleccionado, muestra la contraseña
                 passwordField.setEchoChar((char) 0);
-            } else {
+            } 
+            else {
                 // Si no está seleccionado, oculta la contraseña
                 passwordField.setEchoChar('\u25CF');
             }
-        }
-    });
+        });
 
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Crear una instancia de la clase Registros
-                 Registros registrosWindow = new Registros();
-                // Hacer visible la ventana de registros
-                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                registrosWindow.setVisible(true);
-            }
+        registerButton.addActionListener((ActionEvent e) -> {
+            // Crear una instancia de la clase Registros
+            Registros registrosWindow = new Registros();
+            // Hacer visible la ventana de registros
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            registrosWindow.setVisible(true);
+            dispose();
+    });
+        loginButton.addActionListener((var e) -> {
+        // Obtener el texto del JTextField
+        String texto = usernameField.getText();
+        String password = passwordField.getText();
+        // Convertir el texto a un entero
+        int user = Integer.parseInt(texto);
+       
+        //Imprimimos el user
+        System.out.println("El usuario es: " + user);
+        System.out.println("La contrasena es: " + password);
+        if(user == 202300848  && "proyecto1IPC1".equals(password)){
+            System.out.println("Entrando como admin...");
+            System.out.println("Espere un momento");
+            dispose();
+        }
+        else {
+            System.out.println("Opcion como usuario Normal");
+        }
+        
         });
     }
 }

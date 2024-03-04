@@ -102,5 +102,16 @@ public class Registros extends JFrame {
         Registrarse.setVisible(true);
         Registrarse.setBounds(218, 220, 100, 20);
         panelRegistro.add(Registrarse);
+        Registrarse.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Login login = new Login();
+                login.setVisible(true);
+                dispose();
+            }
+            
+            
+        });
     }
+    
 }
