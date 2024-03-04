@@ -1,11 +1,11 @@
-
 package ipc1.proyecto1;
-import java.util.*;
-import java.util.ArrayList;
 
-public class Proyecto1 {
+import javax.swing.*;
+import java.awt.*;
+public class Proyecto1 extends JFrame {
+    static Login login = new Login();
     public static void main(String[] args) {
-    
+        login.setVisible(true);
+        
     }
-    
 }
