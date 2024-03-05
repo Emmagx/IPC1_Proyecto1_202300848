@@ -25,6 +25,7 @@ public class Registros extends JFrame {
     public Registros() {
         initializeUI();
         addComponents();
+        
     }
 
     private void initializeUI() {
@@ -52,6 +53,7 @@ public class Registros extends JFrame {
         nameField.setBounds(120, 20, 200, 30); // Establece la posición y el tamaño del JTextField
         panelRegistro.add(nameField);
         
+        
        
         JLabel lastNameLabel = new JLabel("Apellido:");
         lastNameLabel.setBounds(20, 60, 80, 30); // Establece la posición y el tamaño del JLabel
@@ -61,9 +63,11 @@ public class Registros extends JFrame {
         lastNameField.setBounds(120, 60, 200, 30);
         panelRegistro.add(lastNameField);
         
+        
         JLabel Password = new JLabel("Contrasena:");
         Password.setBounds(20, 100, 100, 30); // Establece la posición y el tamaño del JLabel
         panelRegistro.add(Password);
+        
         
         JPasswordField passwordField = new JPasswordField();
         passwordField.setBounds(120, 100, 200, 30);
@@ -77,6 +81,7 @@ public class Registros extends JFrame {
         JComboBox<String> comboBoxGenero = new JComboBox<>(Genero);
         comboBoxGenero.setBounds(120, 140, 100, 30);
         panelRegistro.add(comboBoxGenero);
+        
         
         JLabel Edad = new JLabel("Edad:");
         Edad.setBounds(20, 180, 50, 30); // Establece la posición y el tamaño del JLabel
@@ -94,7 +99,9 @@ public class Registros extends JFrame {
                     e.consume();
                 }
             }
-        });
+            
+        }
+        );
         panelRegistro.add(EdadField);
         
         
@@ -105,8 +112,17 @@ public class Registros extends JFrame {
         Registrarse.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(panelRegistro, "Su usuario es: codigo");
+                String nombre = nameField.getText();
+                String Apellido = lastNameField.getText();
+                String contrasena = passwordField.getText();
+                String gender = GeneroLabel.getText();
                 Login login = new Login();
                 login.setVisible(true);
+                System.out.println("Genero " + gender);
+                System.out.println("Nombre " +nombre);
+                System.out.println("Apellido " + Apellido);
+                System.out.println("Contrasena " + contrasena);
                 dispose();
             }
             

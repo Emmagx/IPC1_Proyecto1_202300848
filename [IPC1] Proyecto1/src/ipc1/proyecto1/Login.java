@@ -8,7 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Login extends Proyecto1 {
-    
+
     // Componentes de la interfaz de usuario
     JLabel userName = new JLabel(); // Etiqueta para el nombre de usuario
     JLabel userPass = new JLabel(); // Etiqueta para la contraseña
@@ -19,22 +19,8 @@ public class Login extends Proyecto1 {
     JButton loginButton = new JButton("LOGIN"); // Botón de inicio de sesión
     JButton registerButton = new JButton("Regístrate"); // Botón de registro
     Checkbox showPassCheckbox = new Checkbox(); // Checkbox para mostrar la contraseña
-   
-    JPanel background = new JPanel() { // Panel de fondo para el degradado
-        @Override
-        public void paintComponent(Graphics g) {
-            
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g;
-            // Define los colores del degradado
-            Color colorInicio = new Color(0X8CB7C8); // HEX azul oscurito
-            Color colorFin = new Color(0X7D9EEF); // HEX, azul clarito
-            // Crea el degradado y lo aplica al fondo del panel
-            GradientPaint gradient = new GradientPaint(0, 0, colorInicio, getWidth(), getHeight(), colorFin);
-            g2d.setPaint(gradient);
-            g2d.fillRect(0, 0, getWidth(), getHeight());
-        }
-    };
+
+    JPanel background;
 
     public Login() {
         initializeUI(); // Inicializa la interfaz de usuario
@@ -54,6 +40,7 @@ public class Login extends Proyecto1 {
     }
 
     private void setupLayout() {
+        background = createGradientPanel(); // Utiliza el panel de fondo creado con el método createGradientPanel()
         background.setLayout(null); // Utiliza un diseño nulo para permitir la colocación absoluta de componentes
     }
 
@@ -81,7 +68,7 @@ public class Login extends Proyecto1 {
         userPass.setBounds(40, 140, 100, 20); // Establece la posición y tamaño de la etiqueta de contraseña
         userPass.setFont(new Font("Arial", Font.PLAIN, 15)); // Establece la fuente de la etiqueta de contraseña
         background.add(userPass); // Agrega la etiqueta de contraseña al panel de fondo
-        
+
         passwordField.setEchoChar('\u25CF');
         passwordField.setBounds(40, 160, 300, 25); // Establece la posición y tamaño del campo de contraseña
         background.add(passwordField); // Agrega el campo de contraseña al panel de fondo
@@ -120,13 +107,13 @@ public class Login extends Proyecto1 {
     }
 
     private void addEvents() {
-    // Agrega eventos al checkbox para mostrar contraseña
+        // Agrega eventos al checkbox para mostrar contraseña
         showPassCheckbox.addItemListener((ItemEvent e) -> {
             // Verifica si el checkbox ha cambiado su estado
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 // Si está seleccionado, muestra la contraseña
                 passwordField.setEchoChar((char) 0);
-            } 
+            }
             else {
                 // Si no está seleccionado, oculta la contraseña
                 passwordField.setEchoChar('\u25CF');
@@ -140,26 +127,47 @@ public class Login extends Proyecto1 {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             registrosWindow.setVisible(true);
             dispose();
-    });
-        loginButton.addActionListener((var e) -> {
-        // Obtener el texto del JTextField
-        String texto = usernameField.getText();
-        String password = passwordField.getText();
-        // Convertir el texto a un entero
-        int user = Integer.parseInt(texto);
-       
-        //Imprimimos el user
-        System.out.println("El usuario es: " + user);
-        System.out.println("La contrasena es: " + password);
-        if(user == 202300848  && "proyecto1IPC1".equals(password)){
-            System.out.println("Entrando como admin...");
-            System.out.println("Espere un momento");
-            dispose();
-        }
-        else {
-            System.out.println("Opcion como usuario Normal");
-        }
-        
         });
+
+        loginButton.addActionListener((var e) -> {
+            // Obtener el texto del JTextField
+            String texto = usernameField.getText();
+            String password = passwordField.getText();
+            // Convertir el texto a un entero
+            int user = Integer.parseInt(texto);
+
+            //Imprimimos el user
+            System.out.println("El usuario es: " + user);
+            System.out.println("La contrasena es: " + password);
+            if(user == 202300848  && "proyecto1IPC1".equals(password)){
+                System.out.println("Entrando como admin...");
+                System.out.println("Espere un momento");
+                Admin admin = new Admin();
+                admin.setVisible(true);
+                dispose();
+            }
+            else {
+                System.out.println("Opcion como usuario Normal");
+                dispose();
+            }
+
+        });
+    }
+
+    // Con esto agregamos le degradado
+    private JPanel createGradientPanel() {
+        JPanel gradientPanel = new JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                Color colorInicio = new Color(0X8CB7C8);
+                Color colorFin = new Color(0X7D9EEF);
+                GradientPaint gradient = new GradientPaint(0, 0, colorInicio, getWidth(), getHeight(), colorFin);
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        return gradientPanel;
     }
 }
