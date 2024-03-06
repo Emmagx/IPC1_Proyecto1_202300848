@@ -116,9 +116,12 @@ public class Registros extends JFrame {
                 String nombre = nameField.getText();
                 String Apellido = lastNameField.getText();
                 String contrasena = passwordField.getText();
-                String gender = GeneroLabel.getText();
+                
+                Object selectedItem = comboBoxGenero.getSelectedItem();
+
                 Login login = new Login();
                 login.setVisible(true);
+                String gender = (String) selectedItem;
                 System.out.println("Genero " + gender);
                 System.out.println("Nombre " +nombre);
                 System.out.println("Apellido " + Apellido);
@@ -128,6 +131,4 @@ public class Registros extends JFrame {
             
             
         });
-    }
-    
-}
+    }}
