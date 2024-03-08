@@ -10,6 +10,7 @@ public class Registros extends JFrame {
     JPanel panelRegistro = new JPanel() {
         @Override
         public void paintComponent(Graphics g) {
+            
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
             // Define los colores del degradado
@@ -29,12 +30,12 @@ public class Registros extends JFrame {
     }
 
     private void initializeUI() {
+        setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(370, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setTitle("Registro Paciente");
         // Establece el ícono de la ventana
-        setIconImage(new ImageIcon(getClass().getResource("./images/user-add.png")).getImage());
         
         // Establece el layout del panel de registro como nulo (null layout)
         panelRegistro.setLayout(null);
@@ -43,6 +44,7 @@ public class Registros extends JFrame {
     }
 
     private void addComponents() {
+        setLocationRelativeTo(this);
         // Agrega los componentes necesarios para el formulario de registro al panelRegistro
         
         JLabel nameLabel = new JLabel("Nombre:");
@@ -112,21 +114,37 @@ public class Registros extends JFrame {
         Registrarse.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(panelRegistro, "Su usuario es: codigo");
+                
+                String edad = EdadField.getText();
+                
                 String nombre = nameField.getText();
                 String Apellido = lastNameField.getText();
                 String contrasena = passwordField.getText();
                 
                 Object selectedItem = comboBoxGenero.getSelectedItem();
-
-                Login login = new Login();
-                login.setVisible(true);
                 String gender = (String) selectedItem;
-                System.out.println("Genero " + gender);
-                System.out.println("Nombre " +nombre);
-                System.out.println("Apellido " + Apellido);
-                System.out.println("Contrasena " + contrasena);
-                dispose();
+                
+                if (contrasena.isEmpty() || nombre.isEmpty() || Apellido.isEmpty() || edad.isEmpty()){
+                    System.out.println("Algo esta vacio");
+                    JOptionPane.showMessageDialog(null, ("Rellena todos los campos"));
+                }
+                else{
+                    int edadInt = Integer.parseInt(edad);
+                    System.out.println("Edad : " + edadInt);
+                    System.out.println("Genero " + gender);
+                    System.out.println("Nombre " + nombre);
+                    System.out.println("Apellido " + Apellido);
+                    System.out.println("Contrasena " + contrasena);
+                    
+                    JOptionPane.showMessageDialog(panelRegistro, "Su usuario es: codigo");
+                    Login login = new Login();
+                    login.setVisible(true);
+                    dispose();
+                }
+
+
+                
+                
             }
             
             
