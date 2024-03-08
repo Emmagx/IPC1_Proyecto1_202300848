@@ -135,9 +135,9 @@ public class Login extends Proyecto1 {
             // Crear una instancia de la clase Registros
             Registros registrosWindow = new Registros();
             // Hacer visible la ventana de registros
-            setVisible(false); // Ocultar la ventana actual
-            registrosWindow.setVisible(true);
-            registrosWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configurar el cierre de la ventana de registros
+            setVisible(true); // Ocultar la ventana actual
+            registrosWindow.agregarPersona(false);
+//            registrosWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configurar el cierre de la ventana de registros
         }
 });
 

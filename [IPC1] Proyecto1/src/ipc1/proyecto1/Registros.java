@@ -1,4 +1,5 @@
 package ipc1.proyecto1;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -22,19 +23,47 @@ public class Registros extends JFrame {
             g2d.fillRect(0, 0, getWidth(), getHeight());
         }  
     };
+    JPanel panelRegistroMedico = new JPanel() {
+        @Override
+        public void paintComponent(Graphics g) {
+            
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            // Define los colores del degradado
+            Color colorInicio = new Color(0X8CB7C8); // HEX azul oscurito
+            Color colorFin = new Color(0X7D9EEF); // HEX, azul clarito
+            // Crea el degradado y lo aplica al fondo del panel
+            GradientPaint gradient = new GradientPaint(0, 0, colorInicio, getWidth(), getHeight(), colorFin);
+            g2d.setPaint(gradient);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        }  
+    };
     
-    public Registros() {
-        initializeUI();
-        addComponents();
-        
-    }
 
-    private void initializeUI() {
+    
+    public void initializeUIMedico() {
+        addComponents(true);
+        // Establece el ícono de la ventana
+        setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
+        setSize(400, 400);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setTitle("Registro Persona");
+
+        // Establece el layout del panel de registro como nulo (null layout)
+        panelRegistro.setLayout(null);
+        // Agrega el panel de registro al frame
+        add(panelRegistro);
+    }
+    
+    
+    public void initializeUI() {
+        addComponents(false);
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(370, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setTitle("Registro Paciente");
+        setTitle("Registro");
         // Establece el ícono de la ventana
         
         // Establece el layout del panel de registro como nulo (null layout)
@@ -43,8 +72,11 @@ public class Registros extends JFrame {
         add(panelRegistro);
     }
 
-    private void addComponents() {
-        setLocationRelativeTo(this);
+    public void addComponents(boolean isDoctor) {
+        revalidate();
+        repaint();
+        
+        setLocationRelativeTo(null);
         // Agrega los componentes necesarios para el formulario de registro al panelRegistro
         
         JLabel nameLabel = new JLabel("Nombre:");
@@ -109,9 +141,23 @@ public class Registros extends JFrame {
         
         JButton Registrarse = new JButton("Registrarse");
         Registrarse.setVisible(true);
-        Registrarse.setBounds(218, 220, 100, 20);
-        panelRegistro.add(Registrarse);
-        Registrarse.addActionListener(new ActionListener(){
+        if (isDoctor){
+            System.out.println("Es doctor ");
+            Registrarse.setBounds(218, 300, 100, 20);
+            JLabel especialidadJL = new JLabel("Especialidad:");
+            especialidadJL.setBounds(20, 220, 100, 30);
+            panelRegistro.add(especialidadJL); // Asegúrate de añadir al panelRegistro.
+
+            JTextField especialidadField = new JTextField();
+            especialidadField.setBounds(120, 220, 200, 30);
+            panelRegistro.add(especialidadField); 
+        }
+        else{
+            System.out.println("No es doctor");
+            Registrarse.setBounds(218, 220, 100, 20);
+        }
+            panelRegistro.add(Registrarse);
+            Registrarse.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 
@@ -137,8 +183,8 @@ public class Registros extends JFrame {
                     System.out.println("Contrasena " + contrasena);
                     
                     JOptionPane.showMessageDialog(panelRegistro, "Su usuario es: codigo");
-                    Login login = new Login();
-                    login.setVisible(true);
+//                    Login login = new Login();
+//                    login.setVisible(true);
                     dispose();
                 }
 
@@ -149,4 +195,29 @@ public class Registros extends JFrame {
             
             
         });
-    }}
+    }
+    
+    public void agregarPersona(boolean isDoctor){
+        if (isDoctor){
+            initializeUIMedico();
+            setSize(400, 400);
+        }
+        else {
+            initializeUI();
+        }
+     // Configura la UI para médicos
+    
+    // Añade campos específicos de registro para médicos al panelRegistro.
+    // Añade al panelRegistro.
+    
+    panelRegistro.revalidate();
+    panelRegistro.repaint();
+
+
+    
+    setVisible(true);
+}
+    public void registroPacientes(){
+        
+    }
+}

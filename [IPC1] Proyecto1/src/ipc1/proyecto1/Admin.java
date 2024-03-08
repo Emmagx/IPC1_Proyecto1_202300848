@@ -3,6 +3,8 @@ package ipc1.proyecto1;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +22,10 @@ class Persona {
     public int edad;
     public String especialidad; // Solo para doctores
     public String password;
+    public int telefono;
     
 
-    public Persona(int codigo, String nombre, String apellido, String genero, int edad, String especialidad, String password) {
+    public Persona(int codigo, String nombre, String apellido, String genero, int edad, String especialidad, String password, int telefono) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -30,6 +33,7 @@ class Persona {
         this.edad = edad;
         this.especialidad = especialidad;
         this.password = password;
+        this.telefono = telefono;
     }
 
     public int getCodigo() {
@@ -138,20 +142,20 @@ public class Admin extends JFrame {
         // Agregar doctores por defecto
         if (personas.isEmpty()){
             System.out.println("Entra a esta matriz");
-        personas.add(new Persona(202200001, "Ricardo", "Milos", "Masculino", 30, "Cardiologo", "12345"));
-        personas.add(new Persona(202200002, "Michelle", "Garcia", "Femenino", 30, "Pediatra", "12345"));
-        personas.add(new Persona(202200003, "Emanuel", "Garcia", "Masculino", 30, "Pediatra", "12345"));
-        personas.add(new Persona(202200004, "Brayan", "Garcia", "Masculino", 30, "Dermatologo", "12345"));
-        personas.add(new Persona(202200005, "Ricardo", "Alcaraz", "Masculino", 30, "Cardiologo", "12345"));
-        personas.add(new Persona(202200006, "testUser", "test", "Femenino", 30, "Cardiologo", "12345"));
+        personas.add(new Persona(202200001, "Ricardo", "Milos", "Masculino", 30, "Cardiologo", "12345", 23452345));
+        personas.add(new Persona(202200002, "Michelle", "Garcia", "Femenino", 30, "Pediatra", "12345", 23455432));
+        personas.add(new Persona(202200003, "Emanuel", "Garcia", "Masculino", 30, "Pediatra", "12345", 23455432));
+        personas.add(new Persona(202200004, "Brayan", "Garcia", "Masculino", 30, "Dermatologo", "12345", 23455432));
+        personas.add(new Persona(202200005, "Ricardo", "Alcaraz", "Masculino", 30, "Cardiologo", "12345", 12344321));
+        personas.add(new Persona(202200006, "testUser", "test", "Femenino", 30, "Cardiologo", "12345", 12344321));
 
         // Agregar pacientes por defecto
-        personas.add(new Persona(202300001, "Ricardo", "Milos", "Masculino", 30, null, "asdfg"));
-        personas.add(new Persona(202300002, "Michelle", "Garcia", "Femenino", 20, null, "12345"));
-        personas.add(new Persona(202300003, "Emanuel", "Garcia", "Masculino", 10, null, "12345"));
-        personas.add(new Persona(202300004, "Brayan", "Garcia", "Masculino", 30, null, "12345"));
-        personas.add(new Persona(202300005, "Ricardo", "Alcaraz", "Masculino", 40, null, "12345"));
-        personas.add(new Persona(202300006, "testUser", "test", "Femenino", 40, null, "12345"));
+        personas.add(new Persona(202300001, "Ricardo", "Milos", "Masculino", 30, null, "asdfg", 12344312));
+        personas.add(new Persona(202300002, "Michelle", "Garcia", "Femenino", 20, null, "12345", 12344321));
+        personas.add(new Persona(202300003, "Emanuel", "Garcia", "Masculino", 10, null, "12345", 12344312));
+        personas.add(new Persona(202300004, "Brayan", "Garcia", "Masculino", 30, null, "12345", 43212343));
+        personas.add(new Persona(202300005, "Ricardo", "Alcaraz", "Masculino", 40, null, "12345", 12344321));
+        personas.add(new Persona(202300006, "testUser", "test", "Femenino", 40, null, "12345", 12344323));
         }
     }
 
@@ -170,7 +174,7 @@ private JPanel createPanel(boolean isDoctor, boolean isFarmacia) {
         JTable table = createTable(isDoctor, isFarmacia);
         
         JPanel tablaPanel = new JPanel();
-          tablaPanel.setSize(450, 430);
+        tablaPanel.setSize(450, 430);
         tablaPanel.setLocation(30, 50);
         tablaPanel.add(new JScrollPane(table));
         adminPanel.add(tablaPanel);
@@ -282,7 +286,17 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
             JButton buttonAdd = new JButton("Agregar");
             buttonAdd.setFont(new Font("Arial", Font.PLAIN, 13));
             buttonAdd.setBounds(490, 110, 80, 20);
+            buttonAdd.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    Registros registros = new Registros();
+                    registros.agregarPersona(true);
+                    
+                    
+                    }
+                    });
 
+                    
         // Imagen y botón de Editar usuario
         ImageIcon imageIcon1 = new ImageIcon(getClass().getResource("./images/firma.png"));
         Image imageDimension1 = imageIcon1.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
@@ -309,9 +323,8 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
         panel.add(buttonAdd);
         panel.add(buttonEdit);
         panel.add(buttonDelete);
+
     }
-
-
     // Método para actualizar la gráfica de especialidades
  private void updateEspecialidadesChart(JPanel panel) {
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
