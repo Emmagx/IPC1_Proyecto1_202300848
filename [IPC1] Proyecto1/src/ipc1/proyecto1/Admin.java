@@ -1,5 +1,6 @@
 package ipc1.proyecto1;
 
+import ipc1.proyecto1.Usuarios.Persona;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -14,89 +15,21 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-class Persona {
-    public int codigo;
-    public String nombre;
-    public String apellido;
-    public String genero;
-    public int edad;
-    public String especialidad; // Solo para doctores
-    public String password;
-    public int telefono;
-    
 
-    public Persona(int codigo, String nombre, String apellido, String genero, int edad, String especialidad, String password, int telefono) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.genero = genero;
-        this.edad = edad;
-        this.especialidad = especialidad;
-        this.password = password;
-        this.telefono = telefono;
-    }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public String getEspecialidad() {
-        return especialidad;
-    }
-    public String getPassword() {
-        return password;
-    }    
-}
 
 public class Admin extends JFrame {
-    
-    // Lista para almacenar datos de doctores y pacientes
-    public static ArrayList<Persona> personas = new ArrayList<>();
-    public static ArrayList<Persona> doctores = new ArrayList<>();
-    public static ArrayList<Persona> pacientes = new ArrayList<>();
-    private static boolean dataAdded = false;
-    public static ArrayList<Persona> getPacientes() {
-    return new ArrayList<>(pacientes); // Devuelve una copia
-    }
-    
-    public static ArrayList<Persona> getPersonas() {
-    return new ArrayList<>(personas); // Devuelve una copia
-    }
-    
-    public static ArrayList<Persona> getDoctores() {
-    return new ArrayList<>(doctores); // Devuelve una copia
-    }
-     
+ArrayList<Persona> personas = Usuarios.getPersonas();
+ArrayList<Persona> doctores = Usuarios.getDoctores();
+ArrayList<Persona> pacientes = Usuarios.getPacientes();    
+   
      
     public Admin() {
         
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
          
-         if (!dataAdded) {
-             System.out.println("Entra al condicional");
-            initData();
-            
-            dataAdded = true; // Asegura que initData() solo se ejecute una vez.
-        }
     // Luego, en el lugar donde necesitas comprobar y cargar los datos:
     if (personas.isEmpty() && doctores.isEmpty() && pacientes.isEmpty()) {
-            initData();
+            
         }
             for (Persona persona : personas) {
             
@@ -107,7 +40,8 @@ public class Admin extends JFrame {
                 // Si no tiene especialidad, se considera un paciente
                 pacientes.add(persona);
             }
-        }        
+        }
+        System.out.println("Numero de usuarios : "  + personas.size());
         setResizable(false);
         setLocationRelativeTo(this);
         setTitle("ADMIN");
@@ -138,30 +72,31 @@ public class Admin extends JFrame {
     }
 
     // Método para inicializar los datos
-    private void initData() {
-        // Agregar doctores por defecto
-        if (personas.isEmpty()){
-            System.out.println("Entra a esta matriz");
-        personas.add(new Persona(202200001, "Ricardo", "Milos", "Masculino", 30, "Cardiologo", "12345", 23452345));
-        personas.add(new Persona(202200002, "Michelle", "Garcia", "Femenino", 30, "Pediatra", "12345", 23455432));
-        personas.add(new Persona(202200003, "Emanuel", "Garcia", "Masculino", 30, "Pediatra", "12345", 23455432));
-        personas.add(new Persona(202200004, "Brayan", "Garcia", "Masculino", 30, "Dermatologo", "12345", 23455432));
-        personas.add(new Persona(202200005, "Ricardo", "Alcaraz", "Masculino", 30, "Cardiologo", "12345", 12344321));
-        personas.add(new Persona(202200006, "testUser", "test", "Femenino", 30, "Cardiologo", "12345", 12344321));
-
-        // Agregar pacientes por defecto
-        personas.add(new Persona(202300001, "Ricardo", "Milos", "Masculino", 30, null, "asdfg", 12344312));
-        personas.add(new Persona(202300002, "Michelle", "Garcia", "Femenino", 20, null, "12345", 12344321));
-        personas.add(new Persona(202300003, "Emanuel", "Garcia", "Masculino", 10, null, "12345", 12344312));
-        personas.add(new Persona(202300004, "Brayan", "Garcia", "Masculino", 30, null, "12345", 43212343));
-        personas.add(new Persona(202300005, "Ricardo", "Alcaraz", "Masculino", 40, null, "12345", 12344321));
-        personas.add(new Persona(202300006, "testUser", "test", "Femenino", 40, null, "12345", 12344323));
-        }
-    }
+//    private void initData() {
+//        // Agregar doctores por defecto
+//        if (personas.isEmpty()){
+//            System.out.println("Entra a esta matriz");
+//        personas.add(new Persona(202200001, "Ricardo", "Milos", "Masculino", 30, "Cardiologo", "12345", 23452345));
+//        personas.add(new Persona(202200002, "Michelle", "Garcia", "Femenino", 30, "Pediatra", "12345", 23455432));
+//        personas.add(new Persona(202200003, "Emanuel", "Garcia", "Masculino", 30, "Pediatra", "12345", 23455432));
+//        personas.add(new Persona(202200004, "Brayan", "Garcia", "Masculino", 30, "Dermatologo", "12345", 23455432));
+//        personas.add(new Persona(202200005, "Ricardo", "Alcaraz", "Masculino", 30, "Cardiologo", "12345", 12344321));
+//        personas.add(new Persona(202200006, "testUser", "test", "Femenino", 30, "Cardiologo", "12345", 12344321));
+//
+//        // Agregar pacientes por defecto
+//        personas.add(new Persona(202300001, "Ricardo", "Milos", "Masculino", 30, null, "asdfg", 12344312));
+//        personas.add(new Persona(202300002, "Michelle", "Garcia", "Femenino", 20, null, "12345", 12344321));
+//        personas.add(new Persona(202300003, "Emanuel", "Garcia", "Masculino", 10, null, "12345", 12344312));
+//        personas.add(new Persona(202300004, "Brayan", "Garcia", "Masculino", 30, null, "12345", 43212343));
+//        personas.add(new Persona(202300005, "Ricardo", "Alcaraz", "Masculino", 40, null, "12345", 12344321));
+//        
+//        }
+//    }
 
     // Método para crear y llenar la tabla de doctores o pacientes
     // Método para crear el panel de doctores, pacientes o farmacia
 private JPanel createPanel(boolean isDoctor, boolean isFarmacia) {
+    System.out.println("CreandoPanel");
     JPanel adminPanel = createGradientPanel();
     adminPanel.setLayout(null);
     setupImagesAndButtons(adminPanel);
@@ -172,10 +107,10 @@ private JPanel createPanel(boolean isDoctor, boolean isFarmacia) {
     // Si es panel de doctores, mostrar la gráfica de especialidades
     if (isDoctor) {
         JTable table = createTable(isDoctor, isFarmacia);
-        
+        System.out.println("CreandoTablaDoctor");
         JPanel tablaPanel = new JPanel();
-        tablaPanel.setSize(450, 430);
-        tablaPanel.setLocation(30, 50);
+        tablaPanel.setSize(470, 430);
+        tablaPanel.setLocation(10, 50);
         tablaPanel.add(new JScrollPane(table));
         adminPanel.add(tablaPanel);
         JPanel graficaEspecialidades = createGradientPanel();
@@ -193,6 +128,7 @@ private JPanel createPanel(boolean isDoctor, boolean isFarmacia) {
         // También puedes agregar gráficas o cualquier otro componente que necesites
     } else {
         JTable table = createTable(isDoctor, isFarmacia);
+        System.out.println("CreandoTablaPaciente");
         JPanel tablaPanel = new JPanel();
         tablaPanel.setSize(450, 430);
         tablaPanel.setLocation(30, 50);
@@ -223,6 +159,7 @@ private JPanel createPanel(boolean isDoctor, boolean isFarmacia) {
 
 private JTable createTable(boolean isDoctor, boolean isFarmacia) {
     DefaultTableModel model = new DefaultTableModel();
+    model.setRowCount(0);
     model.addColumn("Codigo");
     if (isDoctor || !isFarmacia){
     model.addColumn("Nombre");
@@ -236,13 +173,15 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
     if (isDoctor || !isFarmacia){
     model.addColumn("Genero");
     model.addColumn("Edad");
-    model.addColumn("Password");
+    model.addColumn("Telefono");
     }
     
     
-    if (isDoctor) {
-        for (Persona doctor : doctores) {
-            Object[] rowData = new Object[]{
+    if (isDoctor && !isFarmacia) {
+//        model.setRowCount(0); // Esto limpia las filas existentes
+
+        for (Persona doctor : Usuarios.getDoctores()) {
+            model.addRow(new Object[]{
                 
                 doctor.getCodigo(),
                 doctor.getNombre(),
@@ -250,22 +189,27 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
                 doctor.getEspecialidad(),
                 doctor.getGenero(),
                 doctor.getEdad(),
-                doctor.getPassword()
-            };
-            model.addRow(rowData);
+                doctor.getTelefono()
+            });System.out.println("CreandoFila");
         }
-    } else if (isFarmacia) {
-        // Aquí puedes agregar el código para crear la tabla de farmacia
-    } else {
-        for (Persona paciente : pacientes) {
+    } 
+    else if (!isDoctor && isFarmacia) {
+        
+       
+    } 
+    if(!isDoctor && !isFarmacia) {
+//        model.setRowCount(0); // Esto limpia las filas existentes;
+
+        for (Persona paciente : Usuarios.getPacientes()) {
             Object[] rowData = new Object[]{
                 paciente.getCodigo(),
                 paciente.getNombre(),
                 paciente.getApellido(),
                 paciente.getGenero(),
                 paciente.getEdad(),
-                paciente.getPassword()
+                paciente.getTelefono()
             };
+            System.out.println("CreandoFilaPaciente");
             model.addRow(rowData);
         }
     }
@@ -290,7 +234,7 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
             @Override
             public void actionPerformed(ActionEvent e) {
                     Registros registros = new Registros();
-                    registros.agregarPersona(true);
+                    registros.agregarPersona(true, false);
                     
                     
                     }

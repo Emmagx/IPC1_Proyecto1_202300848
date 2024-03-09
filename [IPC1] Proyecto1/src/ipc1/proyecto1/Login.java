@@ -1,5 +1,6 @@
 package ipc1.proyecto1;
 
+import ipc1.proyecto1.Usuarios.Persona;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,9 +12,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Login extends Proyecto1 {
-    ArrayList<Persona> pacientes = Admin.getPacientes();
-    ArrayList<Persona> doctores = Admin.getDoctores();
-    ArrayList<Persona> personas = Admin.getPersonas();
+ArrayList<Persona> personas = Usuarios.getPersonas();
+
     // Componentes de la interfaz de usuario
     JLabel userName = new JLabel(); // Etiqueta para el nombre de usuario
     JLabel userPass = new JLabel(); // Etiqueta para la contraseña
@@ -37,7 +37,7 @@ public class Login extends Proyecto1 {
 
     private void initializeUI() {
         // Configuración inicial de la ventana
-
+        
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -134,10 +134,11 @@ public class Login extends Proyecto1 {
         public void mouseClicked(MouseEvent e) {
             // Crear una instancia de la clase Registros
             Registros registrosWindow = new Registros();
+            dispose();
             // Hacer visible la ventana de registros
-            setVisible(true); // Ocultar la ventana actual
-            registrosWindow.agregarPersona(false);
-//            registrosWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configurar el cierre de la ventana de registros
+            setVisible(false); // Ocultar la ventana actual
+            registrosWindow.agregarPersona(false, true);
+            registrosWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configurar el cierre de la ventana de registros
         }
 });
 
@@ -166,23 +167,20 @@ public class Login extends Proyecto1 {
                 }
                 if(user != 202300848) {
                     boolean encontrado = false;
-                    for (Persona paciente : pacientes) {
+                    for (Persona paciente : personas) {
                         if (paciente.getCodigo() == user && paciente.getPassword().equals(password)) {
+                            System.out.println("No. Usuarios:  " + personas.size());
                             System.out.println("Entrando como " + user);
                             System.out.println("Y contraseña " + password);
                             encontrado = true;
     //                        dispose();
+                            if (paciente.getEspecialidad()== null ){
+                                System.out.println("Entrando como paciente...");}
+                            else {
+                                System.out.println("Entrando como medico");
+                            }
                             break; // Sale del bucle una vez que encuentra al usuario
                         }
-                    }
-                    for (Persona Doctor : doctores){
-                       if (Doctor.getCodigo() == user && Doctor.getPassword().equals(password)) {
-                            System.out.println("Entrando como Doctor " + user);
-                            System.out.println("Y contraseña " + password);
-                            encontrado = true;
-    //                        dispose();
-                            break; // Sale del bucle una vez que encuentra al usuario
-                        } 
                     }
 
                     if (!encontrado) {
