@@ -2,7 +2,9 @@ package ipc1.proyecto1;
 
 import static ipc1.proyecto1.Proyecto1.contadorMedicos;
 import static ipc1.proyecto1.Proyecto1.contadorPacientes;
+import ipc1.proyecto1.Usuarios;
 import ipc1.proyecto1.Usuarios.Persona;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     
 
         public void initializeUIRegister() {
-        addComponents(false, true, true);
+        addComponents(false, true);
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(370, 300);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +70,7 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     
     public void initializeUIMedico() {
         
-        addComponents(true, false, false);
+        addComponents(true, false);
         // Establece el ícono de la ventana
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(400, 400);
@@ -84,7 +86,7 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     
     
     public void initializeUILogin() {
-        addComponents(false, false, false);
+        addComponents(false, false);
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(370, 300);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,13 +100,13 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
         add(panelRegistro);
     }
 
-    public void addComponents(boolean isDoctor, boolean isRegister, boolean isProduct) {
+    public void addComponents(boolean isDoctor, boolean isRegister) {
         revalidate();
         repaint();
         String especialiadad;
         setLocationRelativeTo(null);
         // Agrega los componentes necesarios para el formulario de registro al panelRegistro
-        if(!isProduct){
+        
         JLabel nameLabel = new JLabel("Nombre:");
         nameLabel.setBounds(20, 20, 80, 30); // Establece la posición y el tamaño del JLabel
         panelRegistro.add(nameLabel);
@@ -282,13 +284,8 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
             
         });
     }
-        else {
-        
-        
-        }
-    }
     
-    public void agregarPersona(boolean isDoctor, boolean isRegister, boolean isProduct){
+    public void agregarPersona(boolean isDoctor, boolean isRegister){
         if (isDoctor && !isRegister){
             setSize(400, 400);
             initializeUIMedico();
@@ -299,9 +296,6 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
         }
         if(!isDoctor && !isRegister) {
             initializeUILogin();
-        }
-        if(isProduct){
-            registroMedicina();        
         }
     panelRegistro.revalidate();
     panelRegistro.repaint();

@@ -258,11 +258,11 @@ return new JTable(model);}
             public void actionPerformed(ActionEvent e) {
                     Registros registros = new Registros();
                     if (IsDoctor) {
-                    registros.agregarPersona(true, true, false);
+                    registros.agregarPersona(true, true);
                     }
                 // If the "Agregar" button is in the Pharmacy tab, register a new product
                     else if (isFarmacia) {
-                    registros.agregarPersona(false, false, true);
+                    registros.agregarPersona(false, false);
                     }
                     }
                     });
@@ -286,7 +286,19 @@ return new JTable(model);}
         imageLabel2.setBounds(700, 60, 45, 45);
         JButton buttonDelete = new JButton("Eliminar");
         buttonDelete.setFont(new Font("Arial", Font.PLAIN, 12));
-        buttonDelete.setBounds(685, 110, 80, 20);        
+        buttonDelete.setBounds(685, 110, 80, 20);
+        buttonDelete.addActionListener(new ActionListener (){
+               @Override
+               public void actionPerformed(ActionEvent e){
+                   JOptionPane.showMessageDialog(null, (" Usuario No encontrado"));
+                   Admin admin = new Admin();
+                   eliminarUsuario();
+                   dispose();
+                   
+               }
+               
+    
+    });        
         // Agregar imágenes y botones al panel
         panel.add(imageLabel);
         panel.add(imageLabel1);
@@ -419,5 +431,42 @@ private void updateEdadesPacientesChart(JPanel panel) {
             }
         };
         return panel;
+    }
+    
+    public void eliminarUsuario(){
+       JPanel panel = createGradientPanel();
+       setSize(200, 100);
+       JLabel eliminarText = new JLabel("Que Usuario desea eliminar");
+       eliminarText.setBounds(30, 20, 140, 20);
+       JTextField campoEliminar = new JTextField();
+       campoEliminar.setBounds(30, 50, 120, 20);
+       JButton eliminarButton = new JButton("Eliminar");
+       eliminarButton.setBounds(80, 80, 40, 20);
+       panel.add(campoEliminar);
+       panel.add(eliminarButton);
+       panel.add(eliminarText);
+       eliminarButton.addActionListener(new ActionListener (){
+               @Override
+               public void actionPerformed(ActionEvent e){
+                   String delete = campoEliminar.getText();
+                   int deleteInt = Integer.parseInt(delete);
+                   for(Persona persona: personas){
+                       int user = persona.getCodigo();
+                       if (user == deleteInt){
+                           personas.remove(persona);
+                           JOptionPane.showMessageDialog(null, (user + " Usuario Eliminado"));
+                           break;
+                       }
+                   }
+                   JOptionPane.showMessageDialog(null, (" Usuario No encontrado"));
+                   Admin admin = new Admin();
+                   admin.setVisible(true);
+                   dispose();
+                   
+               }
+               
+    
+    });
+       
     }
 }
