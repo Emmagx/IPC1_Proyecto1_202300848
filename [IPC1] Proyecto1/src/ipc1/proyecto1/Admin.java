@@ -235,8 +235,6 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
             public void actionPerformed(ActionEvent e) {
                     Registros registros = new Registros();
                     registros.agregarPersona(true, false);
-                    
-                    
                     }
                     });
 
