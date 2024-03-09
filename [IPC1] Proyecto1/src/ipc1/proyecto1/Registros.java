@@ -15,7 +15,7 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     int telefonoInt;
     private JTextField nameField;
     private JTextField lastNameField;
-    
+
     JPanel panelRegistro = new JPanel() {
         
         @Override
@@ -99,10 +99,9 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     }
 
     public void addComponents(boolean isDoctor, boolean isRegister) {
-        String especialidad;
         revalidate();
         repaint();
-        
+        String especialiadad;
         setLocationRelativeTo(null);
         // Agrega los componentes necesarios para el formulario de registro al panelRegistro
         
@@ -185,6 +184,8 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
         
         JButton Registrarse = new JButton("Registrarse");
         Registrarse.setVisible(true);
+        JTextField especialidadField = new JTextField();
+        especialidadField.setBounds(120, 220, 200, 30);
         if (isDoctor){
             System.out.println("Es doctor ");
             Registrarse.setBounds(218, 260, 100, 20);
@@ -192,21 +193,20 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
             especialidadJL.setBounds(20, 220, 100, 30);
             panelRegistro.add(especialidadJL); // Asegúrate de añadir al panelRegistro.
 
-            JTextField especialidadField = new JTextField();
-            especialidadField.setBounds(120, 220, 200, 30);
+
             panelRegistro.add(especialidadField); 
-            especialidad = especialidadField.getText();
+            
+
         }
-        else{
+        if (isRegister){
             System.out.println("No es doctor");
             Registrarse.setBounds(218, 220, 100, 20);
-            especialidad = null;
+            
         }
             panelRegistro.add(Registrarse);
             Registrarse.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                
                 String edad = EdadField.getText();
                 
                 String TelefonoString = Telefono.getText();
@@ -219,10 +219,13 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
                 String nombre = nameField.getText();
                 String Apellido = lastNameField.getText();
                 String contrasena = passwordField.getText();
-                
+                String especialidad = especialidadField.getText();
                 Object selectedItem = comboBoxGenero.getSelectedItem();
                 String gender = (String) selectedItem;
+                if (especialidad.isEmpty()){
+                especialidad = null;
                 
+                }
                 if (contrasena.isEmpty() || nombre.isEmpty() || Apellido.isEmpty() || edad.isEmpty()){
                     System.out.println("Algo esta vacio");
                     JOptionPane.showMessageDialog(null, ("Rellena todos los campos"));
