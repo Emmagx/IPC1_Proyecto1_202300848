@@ -137,7 +137,7 @@ ArrayList<Persona> personas = Usuarios.getPersonas();
             dispose();
             // Hacer visible la ventana de registros
             setVisible(false); // Ocultar la ventana actual
-            registrosWindow.agregarPersona(false, true);
+            registrosWindow.agregarPersona(false, true, false);
             registrosWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configurar el cierre de la ventana de registros
         }
 });

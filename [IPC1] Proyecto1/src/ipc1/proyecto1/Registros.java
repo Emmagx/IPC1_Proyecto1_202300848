@@ -50,7 +50,7 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     
 
         public void initializeUIRegister() {
-        addComponents(false, true);
+        addComponents(false, true, true);
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(370, 300);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +68,7 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     
     public void initializeUIMedico() {
         
-        addComponents(true, false);
+        addComponents(true, false, false);
         // Establece el ícono de la ventana
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(400, 400);
@@ -84,7 +84,7 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     
     
     public void initializeUILogin() {
-        addComponents(false, false);
+        addComponents(false, false, false);
         setIconImage(new ImageIcon(getClass().getResource("./images/equipo-medico.png")).getImage());
         setSize(370, 300);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,13 +98,13 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
         add(panelRegistro);
     }
 
-    public void addComponents(boolean isDoctor, boolean isRegister) {
+    public void addComponents(boolean isDoctor, boolean isRegister, boolean isProduct) {
         revalidate();
         repaint();
         String especialiadad;
         setLocationRelativeTo(null);
         // Agrega los componentes necesarios para el formulario de registro al panelRegistro
-        
+        if(!isProduct){
         JLabel nameLabel = new JLabel("Nombre:");
         nameLabel.setBounds(20, 20, 80, 30); // Establece la posición y el tamaño del JLabel
         panelRegistro.add(nameLabel);
@@ -282,8 +282,13 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
             
         });
     }
+        else {
+        
+        
+        }
+    }
     
-    public void agregarPersona(boolean isDoctor, boolean isRegister){
+    public void agregarPersona(boolean isDoctor, boolean isRegister, boolean isProduct){
         if (isDoctor && !isRegister){
             setSize(400, 400);
             initializeUIMedico();
@@ -295,11 +300,9 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
         if(!isDoctor && !isRegister) {
             initializeUILogin();
         }
-     // Configura la UI para médicos
-    
-    // Añade campos específicos de registro para médicos al panelRegistro.
-    // Añade al panelRegistro.
-    
+        if(isProduct){
+            registroMedicina();        
+        }
     panelRegistro.revalidate();
     panelRegistro.repaint();
 
@@ -307,7 +310,8 @@ ArrayList<Persona> pacientes = Usuarios.getPacientes();
     
     setVisible(true);
 }
-    public void registroPacientes(){
+    public void registroMedicina(){
+        
         
     }
 }

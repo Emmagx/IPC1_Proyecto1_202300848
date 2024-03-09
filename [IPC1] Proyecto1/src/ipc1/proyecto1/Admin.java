@@ -1,6 +1,7 @@
 package ipc1.proyecto1;
 
 import ipc1.proyecto1.Usuarios.Persona;
+import ipc1.proyecto1.Usuarios.Producto;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class Admin extends JFrame {
 ArrayList<Persona> personas = Usuarios.getPersonas();
 ArrayList<Persona> doctores = Usuarios.getDoctores();
 ArrayList<Persona> pacientes = Usuarios.getPacientes();    
-   
+ArrayList<Producto> productos = Usuarios.getProductos();   
      
     public Admin() {
         
@@ -99,7 +100,7 @@ private JPanel createPanel(boolean isDoctor, boolean isFarmacia) {
     System.out.println("CreandoPanel");
     JPanel adminPanel = createGradientPanel();
     adminPanel.setLayout(null);
-    setupImagesAndButtons(adminPanel);
+    setupImagesAndButtons(adminPanel, isDoctor, isFarmacia);
     this.setLocationRelativeTo(null);
     // Crear y agregar la tabla al panel
     
@@ -123,9 +124,21 @@ private JPanel createPanel(boolean isDoctor, boolean isFarmacia) {
         adminPanel.add(tituloPanelGrafica);
         updateEspecialidadesChart(graficaEspecialidades);
     } else if (isFarmacia) {
-        // Si es panel de farmacia, aquí puedes agregar lógica específica para la farmacia
-        // Por ejemplo, puedes agregar botones para gestionar el inventario de la farmacia
-        // También puedes agregar gráficas o cualquier otro componente que necesites
+        JTable table = createTable(isDoctor, isFarmacia);
+        JPanel tablaPanel = new JPanel();
+        tablaPanel.setSize(450, 430);
+        tablaPanel.setLocation(30, 50);
+        tablaPanel.add(new JScrollPane(table));
+        adminPanel.add(tablaPanel);
+        JPanel graficaProductos = createGradientPanel();
+        graficaProductos.setBounds(490, 250, 270, 180);
+        adminPanel.add(graficaProductos);
+        JLabel tituloPanelGrafica = new JLabel("Grafica de Productos");
+        tituloPanelGrafica.setBounds(543, 230, 200, 20);
+        tituloPanelGrafica.setFont(new Font("Arial", Font.PLAIN, 15));
+        adminPanel.add(tituloPanelGrafica);
+        updateProductosChart(graficaProductos);
+        
     } else {
         JTable table = createTable(isDoctor, isFarmacia);
         System.out.println("CreandoTablaPaciente");
@@ -194,9 +207,19 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
         }
     } 
     else if (!isDoctor && isFarmacia) {
-        
-       
-    } 
+        model.addColumn("Nombre");
+        model.addColumn("Cantidad");
+        model.addColumn("Precio");
+            for (Producto paciente : Usuarios.getProductos()) {
+            Object[] rowData = new Object[]{
+                paciente.getCodigo(),
+                paciente.getNombre(),
+                paciente.getAnimales(),
+                paciente.getPrecio(),
+                            };
+            System.out.println("CreandoFilaPaciente");
+            model.addRow(rowData);
+        }
     if(!isDoctor && !isFarmacia) {
 //        model.setRowCount(0); // Esto limpia las filas existentes;
 
@@ -214,13 +237,13 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
         }
     }
     
-    return new JTable(model);
+    
 }
-
+return new JTable(model);}
 
     
      // Método para agregar imágenes y botones a un panel
-    private void setupImagesAndButtons(JPanel panel) {
+    private void setupImagesAndButtons(JPanel panel, boolean IsDoctor, boolean isFarmacia) {
             // Imagen y botón de agregar médicos
             ImageIcon imageIcon = new ImageIcon(getClass().getResource("./images/agregar.png"));
             Image imageDimension = imageIcon.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
@@ -234,7 +257,13 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
             @Override
             public void actionPerformed(ActionEvent e) {
                     Registros registros = new Registros();
-                    registros.agregarPersona(true, false);
+                    if (IsDoctor) {
+                    registros.agregarPersona(true, true, false);
+                    }
+                // If the "Agregar" button is in the Pharmacy tab, register a new product
+                    else if (isFarmacia) {
+                    registros.agregarPersona(false, false, true);
+                    }
                     }
                     });
 
@@ -303,7 +332,42 @@ private JTable createTable(boolean isDoctor, boolean isFarmacia) {
     panel.revalidate();
     panel.repaint();
 }
- 
+
+
+// Método para actualizar la gráfica de edades de pacientes
+private void updateProductosChart(JPanel panel) {
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+    // Contar la cantidad de pacientes por edad
+    Map<Integer, Integer> edadesCount = new HashMap<>();
+    for (Producto paciente : productos) {
+        int edad = paciente.getAnimales();
+        edadesCount.put(edad, edadesCount.getOrDefault(edad, 0) + 1);
+    }
+
+    // Agregar los datos al dataset
+    for (Map.Entry<Integer, Integer> entry : edadesCount.entrySet()) {
+        dataset.addValue(entry.getValue(), "Pacientes", String.valueOf(entry.getKey()));
+    }
+
+    // Crear la gráfica de barras
+    JFreeChart chart = ChartFactory.createBarChart(
+            "Medicina", // Título de la gráfica
+            "Medicamento",              // Etiqueta del eje X
+            "Cantidad",            // Etiqueta del eje Y
+            dataset,               // Conjunto de datos
+            PlotOrientation.VERTICAL,
+            true, true, false
+    );
+
+    // Crear un panel para mostrar la gráfica
+    ChartPanel chartPanel = new ChartPanel(chart);
+    panel.removeAll();
+    panel.add(chartPanel);
+    chartPanel.setPreferredSize(new Dimension(230, 150));
+    panel.revalidate();
+    panel.repaint();
+}
 
 // Método para actualizar la gráfica de edades de pacientes
 private void updateEdadesPacientesChart(JPanel panel) {
